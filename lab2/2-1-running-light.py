@@ -8,5 +8,6 @@ for i in range(3):
         GPIO.output(l, 1)
         time.sleep(0.2)
         GPIO.output(l, 0)
+
 GPIO.output(leds, 0)
 GPIO.cleanup()
