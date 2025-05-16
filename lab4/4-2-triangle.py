@@ -1,24 +1,33 @@
 import RPi.GPIO as GPIO
-from time import sleep
-dac=[8, 11, 7, 1, 0, 5, 12, 6]
+import time
+dac = [8, 11, 7, 1, 0, 5, 12, 6]
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(dac, GPIO.OUT)
-def decimal2bin(a):
-    return [int (elem) for elem in bin(a)[2:].zfill(8)]
+
+def dec2bin(value):
+    return [int(x) for x in bin(value)[2:].zfill(8)]
+def setper():
+    while True:
+        try:
+            period = float(input("set period: "))
+            if period <= 0:
+                print("must be > 0!")
+                continue
+            return period
+        except ValueError:
+            print("must be number!")
 try:
-    while (True):
-        number = input()
-        if number == "q":
-            exit()
-        elif not number.isdigit():
-            print("Введите число, а не строку!")
-        timepause = int(number)/256/2
+    period = setper()
+    half = period/2
+    step = half/255
+    while True:
         for i in range(256):
-            GPIO.output(dac, decimal2bin(i))
-            sleep(timepause)
+            GPIO.output(dac, dec2bin(i))
+            time.sleep(step)
         for i in range(254, 0, -1):
-            GPIO.output(dac, decimal2bin(i))
-            sleep(timepause)  
+            GPIO.output(dac, dec2bin(i))
+            time.sleep(step)
+        
 finally:
     GPIO.output(dac, 0)
     GPIO.cleanup()
