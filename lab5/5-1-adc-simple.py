@@ -24,7 +24,7 @@ try:
             if a == None:
                 a=255
             else:
-                print(i, '{:.2f}v'.format(3.3*a/256))
+                print(a, '{:.2f}v'.format(3.3*a/256))
 finally:
     GPIO.output(dac, 0)
     GPIO.cleanup()   
