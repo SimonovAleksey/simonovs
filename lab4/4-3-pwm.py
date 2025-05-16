@@ -1,16 +1,27 @@
 import RPi.GPIO as GPIO
-GPIO.setmode(gpio.BCM)
-GPIO.setup(24, GPIO.OUT)
-dac=[8, 11, 7, 1, 0, 5, 12, 6]
-GPIO.setup(dac, GPIO.OUT, initial=GPIO.HIGH)
-pwm = GPIO.PWM(24, 1000)
-GPIO.start(0)
+
+PWM_PIN = 24
+PWM_FREQ = 1000
+VCC = 3.3
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(PWM_PIN, GPIO.OUT)
+pwm = GPIO.PWM(PWM_PIN, PWM_FREQ)
+pwm.start(0)
+
 try:
     while True:
+        duty_input = input("enter fill-koef: ")
         try:
-            DC = input()
-            pwm.ChangeDutyCycle(int(DC))
-            print("{:.2f}".format(int(DC)*3.3/100))
+            duty_cycle = int(duty_input)
+            if 0 <= duty_cycle <= 100:
+                pwm.ChangeDutyCycle(duty_cycle)
+                u = VCC * duty_cycle / 100
+                print(u, "- ожидаемое напряжение")
+            else:
+                print("значение от 0 до 100!")
+        except ValueError:
+            print("Введите целое число!")
+
 finally:
     pwm.stop()
-    GPIO.cleanup()   
+    GPIO.cleanup()
