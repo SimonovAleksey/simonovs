@@ -12,7 +12,7 @@ try:
             exit()
         elif not number.isdigit():
             print("Введите число, а не строку!")
-        timepause=int(number)/256/2
+        timepause = int(number)/256/2
         for i in range(256):
             GPIO.output(dac, decimal2bin(i))
             sleep(timepause)
