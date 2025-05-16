@@ -17,6 +17,7 @@ def adc():
         sleep(0.001)
         if compvalue == 1:
             return a
+            
 try:
     while True:
         a = adc()
