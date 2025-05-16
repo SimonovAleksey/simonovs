@@ -1,1 +1,1 @@
-blah blah blah blew blew blew blu bluw bluw
+Приложение к лаборатторным работам из курса ВЦП
